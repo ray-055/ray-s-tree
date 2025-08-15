@@ -15,7 +15,7 @@ public enum ResponseStatus {
         this.message = message;
     }
 
-    puclic ResponseStatus getResponseStatus(string message) {
+    public ResponseStatus getResponseStatus(String message) {
         for (ResponseStatus ut : ResponseStatus.values()) {
             if (ut.getMessage() == message) {
                 return ut;
