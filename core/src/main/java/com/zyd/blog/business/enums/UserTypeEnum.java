@@ -12,7 +12,7 @@ public enum UserTypeEnum {
         this.desc = desc;
     }
 
-    public static UserTypeEnum getBytype(String type) {
+    public static UserTypeEnum getByType(String type) {
         if (type == null) {return UNKNOW;}
         for (UserTypeEnum value : UserTypeEnum.values()) {
             if (value.name().equals(type)) {
@@ -22,7 +22,7 @@ public enum UserTypeEnum {
         return UNKNOW;
     }
 
-    public String getByTypeDesc(String type) {
+    public static String getByTypeDesc(String type) {
         if (type == null) {
             return UNKNOW.getDesc();
         }
