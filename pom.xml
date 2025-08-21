@@ -9,10 +9,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>core</module>
-        <module>web</module>
-        <module>admin</module>
-        <module>file</module>
-        <module>codegen</module>
+        <module>blog-file</module>
     </modules>
 
     <name>blog</name>
