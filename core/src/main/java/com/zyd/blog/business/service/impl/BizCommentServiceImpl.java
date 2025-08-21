@@ -14,7 +14,7 @@ import com.zyd.blog.business.service.BizCommentService;
 import com.zyd.blog.business.service.MailService;
 import com.zyd.blog.business.service.SysConfigService;
 import com.zyd.blog.business.vo.CommentConditionVO;
-import com.zyd.blog.framework.exception.ZhydCommentException;
+import com.zyd.blog.framework.exception.CommentException;
 import com.zyd.blog.framework.holder.RequestHolder;
 import com.zyd.blog.persistence.beans.BizComment;
 import com.zyd.blog.persistence.beans.SysConfig;
@@ -121,7 +121,7 @@ public class BizCommentServiceImpl implements BizCommentService {
      */
     @Override
     @RedisCache(flush = true)
-    public void commentForAdmin(Comment comment) throws ZhydCommentException {
+    public void commentForAdmin(Comment comment) throws CommentException {
         Map config = configService.getConfigs();
         User user = SessionUtil.getUser();
         comment.setQq(user.getQq());
@@ -144,7 +144,7 @@ public class BizCommentServiceImpl implements BizCommentService {
      */
     @Override
     @RedisCache(flush = true)
-    public Comment comment(Comment comment) throws ZhydCommentException {
+    public Comment comment(Comment comment) throws CommentException {
         SysConfig sysConfig = configService.getByKey(ConfigKeyEnum.ANONYMOUS.getKey());
         boolean anonymous = true;
         if (null != sysConfig) {
@@ -153,7 +153,7 @@ public class BizCommentServiceImpl implements BizCommentService {
 
         // 非匿名且未登录
         if (!anonymous && !SessionUtil.isLogin()) {
-            throw new ZhydCommentException("站长已关闭匿名评论，请先登录！");
+            throw new CommentException("站长已关闭匿名评论，请先登录！");
         }
 
         // 过滤文本内容，防止xss
@@ -202,22 +202,22 @@ public class BizCommentServiceImpl implements BizCommentService {
     private void filterContent(Comment comment) {
         String content = comment.getContent();
         if (StringUtils.isEmpty(content) || "\n".equals(content)) {
-            throw new ZhydCommentException("说点什么吧");
+            throw new CommentException("说点什么吧");
         }
         String url = comment.getUrl();
         String avatar = comment.getAvatar();
         if ((!StringUtils.isEmpty(avatar) && !RegexUtils.isUrl(avatar)) || (!StringUtils.isEmpty(url) && !RegexUtils.isUrl(url))) {
-            throw new ZhydCommentException("链接地址不正确");
+            throw new CommentException("链接地址不正确");
         }
         // 过滤非法属性和无用的空标签
         if (!XssKillerUtil.isValid(content) || !XssKillerUtil.isValid(comment.getAvatar())
                 || !XssKillerUtil.isValid(comment.getUrl()) || !XssKillerUtil.isValid(comment.getNickname())
                 || !XssKillerUtil.isValid(comment.getQq()) || !XssKillerUtil.isValid(comment.getEmail())) {
-            throw new ZhydCommentException("请不要使用特殊标签");
+            throw new CommentException("请不要使用特殊标签");
         }
         content = XssKillerUtil.clean(content.trim()).replaceAll("(<p><br></p>)|(<p></p>)", "");
         if (StringUtils.isEmpty(content) || "\n".equals(content)) {
-            throw new ZhydCommentException("说点什么吧");
+            throw new CommentException("说点什么吧");
         }
         comment.setContent(content);
     }
@@ -229,7 +229,7 @@ public class BizCommentServiceImpl implements BizCommentService {
      */
     private void setCurrentAnonymousUserInfo(Comment comment) {
         if (StringUtils.isEmpty(comment.getNickname())) {
-            throw new ZhydCommentException("必须输入昵称");
+            throw new CommentException("必须输入昵称");
         }
         comment.setNickname(HtmlUtil.html2Text(comment.getNickname()));
         comment.setQq(HtmlUtil.html2Text(comment.getQq()));
@@ -378,7 +378,7 @@ public class BizCommentServiceImpl implements BizCommentService {
         String key = IpUtil.getRealIp(RequestHolder.getRequest()) + "_doSupport_" + id;
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
         if (redisTemplate.hasKey(key)) {
-            throw new ZhydCommentException("一个小时只能点一次赞哈~");
+            throw new CommentException("一个小时只能点一次赞哈~");
         }
         bizCommentMapper.doSupport(id);
         operations.set(key, id, 1, TimeUnit.HOURS);
@@ -395,7 +395,7 @@ public class BizCommentServiceImpl implements BizCommentService {
         String key = IpUtil.getRealIp(RequestHolder.getRequest()) + "_doOppose_" + id;
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
         if (redisTemplate.hasKey(key)) {
-            throw new ZhydCommentException("一个小时只能踩一次哈~又没什么深仇大恨");
+            throw new CommentException("一个小时只能踩一次哈~又没什么深仇大恨");
         }
         bizCommentMapper.doOppose(id);
         operations.set(key, id, 1, TimeUnit.HOURS);

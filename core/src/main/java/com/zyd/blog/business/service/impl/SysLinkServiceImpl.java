@@ -12,7 +12,7 @@ import com.zyd.blog.business.service.SysConfigService;
 import com.zyd.blog.business.service.SysLinkService;
 import com.zyd.blog.business.util.LinksUtil;
 import com.zyd.blog.business.vo.LinkConditionVO;
-import com.zyd.blog.framework.exception.ZhydLinkException;
+import com.zyd.blog.framework.exception.LinkException;
 import com.zyd.blog.persistence.beans.SysLink;
 import com.zyd.blog.persistence.mapper.SysLinkMapper;
 import com.zyd.blog.util.HtmlUtil;
@@ -135,23 +135,23 @@ public class SysLinkServiceImpl implements SysLinkService {
      */
     @Override
     @RedisCache(flush = true)
-    public boolean autoLink(Link link) throws ZhydLinkException {
+    public boolean autoLink(Link link) throws LinkException {
         String url = link.getUrl();
         if(StringUtils.isEmpty(url)) {
-            throw new ZhydLinkException("链接地址为空！");
+            throw new LinkException("链接地址为空！");
         }
         if(!RegexUtils.isUrl(url)) {
-            throw new ZhydLinkException("链接地址无效！");
+            throw new LinkException("链接地址无效！");
         }
         Link bo = getOneByUrl(url);
         if (bo != null) {
-            throw new ZhydLinkException("本站已经添加过贵站的链接！");
+            throw new LinkException("本站已经添加过贵站的链接！");
         }
         Map config = configService.getConfigs();
         String domain = (String) config.get(ConfigKeyEnum.DOMAIN.getKey());
         if (!(LinksUtil.hasLinkByHtml(url, domain))
                 && !LinksUtil.hasLinkByChinaz(url, domain)) {
-            throw new ZhydLinkException("贵站暂未添加本站友情链接！请先添加本站友链后重新提交申请！");
+            throw new LinkException("贵站暂未添加本站友情链接！请先添加本站友链后重新提交申请！");
         }
 
         link.setSource(LinkSourceEnum.AUTOMATIC);

@@ -9,8 +9,8 @@ import com.zyd.blog.business.enums.UserPrivacyEnum;
 import com.zyd.blog.business.enums.UserStatusEnum;
 import com.zyd.blog.business.service.SysUserService;
 import com.zyd.blog.business.vo.UserConditionVO;
-import com.zyd.blog.framework.exception.ZhydCommentException;
-import com.zyd.blog.framework.exception.ZhydException;
+import com.zyd.blog.framework.exception.CommentException;
+import com.zyd.blog.framework.exception.Exception;
 import com.zyd.blog.framework.holder.RequestHolder;
 import com.zyd.blog.persistence.beans.SysUser;
 import com.zyd.blog.persistence.mapper.SysUserMapper;
@@ -43,7 +43,7 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserMapper sysUserMapper;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public User insert(User user) {
         Assert.notNull(user, "User不可为空！");
         user.setUpdateTime(new Date());
@@ -57,7 +57,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public void insertList(List<User> users) {
         Assert.notNull(users, "Users不可为空！");
         List<SysUser> sysUsers = new ArrayList<>();
@@ -74,22 +74,22 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public boolean removeByPrimaryKey(Long primaryKey) {
         return sysUserMapper.deleteByPrimaryKey(primaryKey) > 0;
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public boolean updateSelective(User user) {
         Assert.notNull(user, "User不可为空！");
         user.setUpdateTime(new Date());
         if (!StringUtils.isEmpty(user.getPassword())) {
             try {
                 user.setPassword(PasswordUtil.encrypt(user.getPassword(), user.getUsername()));
-            } catch (Exception e) {
+            } catch (java.lang.Exception e) {
                 e.printStackTrace();
-                throw new ZhydCommentException("密码加密失败");
+                throw new CommentException("密码加密失败");
             }
         } else {
             user.setPassword(null);
@@ -192,17 +192,17 @@ public class SysUserServiceImpl implements SysUserService {
      * @return
      */
     @Override
-    public boolean updatePwd(UserPwd userPwd) throws Exception {
+    public boolean updatePwd(UserPwd userPwd) throws java.lang.Exception {
         if (!userPwd.getNewPassword().equals(userPwd.getNewPasswordRepeat())) {
-            throw new ZhydException("新密码不一致！");
+            throw new Exception("新密码不一致！");
         }
         User user = this.getByPrimaryKey(userPwd.getId());
         if (null == user) {
-            throw new ZhydException("用户编号错误！请不要手动操作用户ID！");
+            throw new Exception("用户编号错误！请不要手动操作用户ID！");
         }
 
         if (!user.getPassword().equals(PasswordUtil.encrypt(userPwd.getPassword(), user.getUsername()))) {
-            throw new ZhydException("原密码不正确！");
+            throw new Exception("原密码不正确！");
         }
         user.setPassword(userPwd.getNewPassword());
 

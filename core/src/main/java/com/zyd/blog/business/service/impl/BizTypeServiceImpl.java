@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.zyd.blog.business.entity.Type;
 import com.zyd.blog.business.service.BizTypeService;
 import com.zyd.blog.business.vo.TypeConditionVO;
-import com.zyd.blog.framework.exception.ZhydException;
+import com.zyd.blog.framework.exception.Exception;
 import com.zyd.blog.persistence.beans.BizArticle;
 import com.zyd.blog.persistence.beans.BizType;
 import com.zyd.blog.persistence.mapper.BizArticleMapper;
@@ -89,7 +89,7 @@ public class BizTypeServiceImpl implements BizTypeService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public Type insert(Type entity) {
         Assert.notNull(entity, "Type不可为空！");
         entity.setUpdateTime(new Date());
@@ -99,20 +99,20 @@ public class BizTypeServiceImpl implements BizTypeService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public boolean removeByPrimaryKey(Long primaryKey) {
 
         BizArticle article = new BizArticle();
         article.setTypeId(primaryKey);
         List<BizArticle> articles = bizArticleMapper.select(article);
         if (!CollectionUtils.isEmpty(articles)) {
-            throw new ZhydException("当前分类下存在文章信息，禁止删除！");
+            throw new Exception("当前分类下存在文章信息，禁止删除！");
         }
         return bizTypeMapper.deleteByPrimaryKey(primaryKey) > 0;
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public boolean updateSelective(Type entity) {
         Assert.notNull(entity, "Type不可为空！");
         entity.setUpdateTime(new Date());

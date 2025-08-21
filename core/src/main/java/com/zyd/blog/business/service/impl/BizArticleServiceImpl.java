@@ -16,8 +16,8 @@ import com.zyd.blog.business.service.BizArticleTagsService;
 import com.zyd.blog.business.vo.ArticleConditionVO;
 import com.zyd.blog.file.FileUploader;
 import com.zyd.blog.file.entity.VirtualFile;
-import com.zyd.blog.framework.exception.ZhydArticleException;
-import com.zyd.blog.framework.exception.ZhydException;
+import com.zyd.blog.framework.exception.ArticleException;
+import com.zyd.blog.framework.exception.Exception;
 import com.zyd.blog.framework.holder.RequestHolder;
 import com.zyd.blog.persistence.beans.*;
 import com.zyd.blog.persistence.mapper.*;
@@ -240,7 +240,7 @@ public class BizArticleServiceImpl implements BizArticleService {
         String key = ip + "_doPraise_" + id;
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
         if (redisTemplate.hasKey(key)) {
-            throw new ZhydArticleException("一个小时只能点赞一次哈，感谢支持~~");
+            throw new ArticleException("一个小时只能点赞一次哈，感谢支持~~");
         }
         User user = SessionUtil.getUser();
         BizArticleLove love = new BizArticleLove();
@@ -277,10 +277,10 @@ public class BizArticleServiceImpl implements BizArticleService {
      * @return
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public boolean publish(Article article, Long[] tags, MultipartFile file) {
         if (null == tags || tags.length <= 0) {
-            throw new ZhydArticleException("请至少选择一个标签");
+            throw new ArticleException("请至少选择一个标签");
         }
         if (null != file) {
             FileUploader uploader = new GlobalFileUploader();
@@ -310,7 +310,7 @@ public class BizArticleServiceImpl implements BizArticleService {
      * @return
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public boolean updateTopOrRecommendedById(String type, Long id) {
         BizArticle article = bizArticleMapper.selectByPrimaryKey(id);
         article.setId(id);
@@ -321,7 +321,7 @@ public class BizArticleServiceImpl implements BizArticleService {
         } else if ("comment".equals(type)) {
             article.setComment(!article.getComment());
         } else {
-            throw new ZhydException(ResponseStatus.INVALID_PARAMS.getMessage());
+            throw new Exception(ResponseStatus.INVALID_PARAMS.getMessage());
         }
         article.setUpdateTime(new Date());
         return bizArticleMapper.updateByPrimaryKeySelective(article) > 0;
@@ -369,7 +369,7 @@ public class BizArticleServiceImpl implements BizArticleService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public Article insert(Article entity) {
         Assert.notNull(entity, "Article不可为空！");
         entity.setUpdateTime(new Date());
@@ -392,7 +392,7 @@ public class BizArticleServiceImpl implements BizArticleService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public boolean removeByPrimaryKey(Long primaryKey) {
         boolean result = bizArticleMapper.deleteByPrimaryKey(primaryKey) > 0;
         // 删除文章内容
@@ -416,7 +416,7 @@ public class BizArticleServiceImpl implements BizArticleService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public boolean updateSelective(Article entity) {
         Assert.notNull(entity, "Article不可为空！");
         entity.setUpdateTime(new Date());

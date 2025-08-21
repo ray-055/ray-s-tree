@@ -2,7 +2,7 @@ package com.zyd.blog.business.service.impl;
 
 import com.zyd.blog.business.entity.BizArticleContentBo;
 import com.zyd.blog.business.service.BizArticleContentService;
-import com.zyd.blog.framework.exception.ZhydException;
+import com.zyd.blog.framework.exception.Exception;
 import com.zyd.blog.persistence.beans.BizArticleContent;
 import com.zyd.blog.persistence.mapper.BizArticleContentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class BizArticleContentServiceImpl implements BizArticleContentService {
      * @return
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public BizArticleContentBo insert(BizArticleContentBo entity) {
         Assert.notNull(entity, "BizArticleContent不可为空！");
         entity.setUpdateTime(new Date());
@@ -51,7 +51,7 @@ public class BizArticleContentServiceImpl implements BizArticleContentService {
      * @return
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public boolean removeByPrimaryKey(Long primaryKey) {
         return bizArticleContentMapper.deleteByPrimaryKey(primaryKey) > 0;
     }
@@ -63,7 +63,7 @@ public class BizArticleContentServiceImpl implements BizArticleContentService {
      * @return
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public boolean updateSelective(BizArticleContentBo entity) {
         Assert.notNull(entity, "BizArticleContent不可为空！");
         Assert.notNull(entity.getArticleId(), "ArticleId不可为空！");
@@ -73,7 +73,7 @@ public class BizArticleContentServiceImpl implements BizArticleContentService {
         criteria.andEqualTo("articleId", articleId);
         BizArticleContent content = bizArticleContentMapper.selectOneByExample(example);
         if (null == content) {
-            throw new ZhydException("文章不存在或者已被删除");
+            throw new Exception("文章不存在或者已被删除");
         }
         content.setContent(entity.getContent());
         content.setContentMd(entity.getContentMd());
@@ -120,7 +120,7 @@ public class BizArticleContentServiceImpl implements BizArticleContentService {
         criteria.andEqualTo("articleId", articleId);
         BizArticleContent content = bizArticleContentMapper.selectOneByExample(example);
         if (null == content) {
-            throw new ZhydException("文章不存在或者已被删除");
+            throw new Exception("文章不存在或者已被删除");
         }
         this.removeByPrimaryKey(content.getId());
     }

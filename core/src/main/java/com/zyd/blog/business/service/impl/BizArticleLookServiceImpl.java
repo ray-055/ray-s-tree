@@ -1,7 +1,7 @@
 package com.zyd.blog.business.service.impl;
 
 import com.zyd.blog.business.service.BizArticleLookService;
-import com.zyd.blog.framework.exception.ZhydException;
+import com.zyd.blog.framework.exception.Exception;
 import com.zyd.blog.persistence.beans.BizArticleLookV2;
 import com.zyd.blog.persistence.mapper.BizArticleLookV2Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class BizArticleLookServiceImpl implements BizArticleLookService {
     private BizArticleLookV2Mapper bizArticleLookV2Mapper;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public void increment(Long articleId) {
         Assert.notNull(articleId, "articleId不可为空！");
         int res = bizArticleLookV2Mapper.increment(articleId);
@@ -49,20 +49,20 @@ public class BizArticleLookServiceImpl implements BizArticleLookService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public void removeByArticleId(Long articleId) {
         Example example = new Example(BizArticleLookV2.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("articleId", articleId);
         BizArticleLookV2 content = bizArticleLookV2Mapper.selectOneByExample(example);
         if (null == content) {
-            throw new ZhydException("文章浏览记录已经不存在或者已被删除");
+            throw new Exception("文章浏览记录已经不存在或者已被删除");
         }
         this.removeByPrimaryKey(content.getId());
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     public boolean removeByPrimaryKey(Long primaryKey) {
         return bizArticleLookV2Mapper.deleteByPrimaryKey(primaryKey) > 0;
     }

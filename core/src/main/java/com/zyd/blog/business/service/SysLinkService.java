@@ -4,7 +4,7 @@ package com.zyd.blog.business.service;
 import com.github.pagehelper.PageInfo;
 import com.zyd.blog.business.entity.Link;
 import com.zyd.blog.business.vo.LinkConditionVO;
-import com.zyd.blog.framework.exception.ZhydLinkException;
+import com.zyd.blog.framework.exception.LinkException;
 import com.zyd.blog.framework.object.AbstractService;
 
 import java.util.List;
@@ -60,5 +60,5 @@ public interface SysLinkService extends AbstractService<Link, Long> {
      * @param link
      * @return
      */
-    boolean autoLink(Link link) throws ZhydLinkException;
+    boolean autoLink(Link link) throws LinkException;
 }

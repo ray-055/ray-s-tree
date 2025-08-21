@@ -4,7 +4,7 @@ package com.zyd.blog.business.service;
 import com.github.pagehelper.PageInfo;
 import com.zyd.blog.business.entity.Comment;
 import com.zyd.blog.business.vo.CommentConditionVO;
-import com.zyd.blog.framework.exception.ZhydCommentException;
+import com.zyd.blog.framework.exception.CommentException;
 import com.zyd.blog.framework.object.AbstractService;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public interface BizCommentService extends AbstractService<Comment, Long> {
      * @param comment
      * @return
      */
-    void commentForAdmin(Comment comment) throws ZhydCommentException;
+    void commentForAdmin(Comment comment) throws CommentException;
 
     /**
      * 发表评论
@@ -39,7 +39,7 @@ public interface BizCommentService extends AbstractService<Comment, Long> {
      * @param comment
      * @return
      */
-    Comment comment(Comment comment) throws ZhydCommentException;
+    Comment comment(Comment comment) throws CommentException;
 
     /**
      * 查询近期评论

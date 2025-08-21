@@ -6,7 +6,7 @@ import com.zyd.blog.business.annotation.RedisCache;
 import com.zyd.blog.business.entity.Tags;
 import com.zyd.blog.business.service.BizTagsService;
 import com.zyd.blog.business.vo.TagsConditionVO;
-import com.zyd.blog.framework.exception.ZhydException;
+import com.zyd.blog.framework.exception.Exception;
 import com.zyd.blog.persistence.beans.BizArticleTags;
 import com.zyd.blog.persistence.beans.BizTags;
 import com.zyd.blog.persistence.mapper.BizArticleTagsMapper;
@@ -62,12 +62,12 @@ public class BizTagsServiceImpl implements BizTagsService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     @RedisCache(flush = true)
     public Tags insert(Tags entity) {
         Assert.notNull(entity, "Tags不可为空！");
         if (this.getByName(entity.getName()) != null) {
-            throw new ZhydException("标签添加失败，标签已存在！[" + entity.getName() + "]");
+            throw new Exception("标签添加失败，标签已存在！[" + entity.getName() + "]");
         }
         entity.setUpdateTime(new Date());
         entity.setCreateTime(new Date());
@@ -76,27 +76,27 @@ public class BizTagsServiceImpl implements BizTagsService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     @RedisCache(flush = true)
     public boolean removeByPrimaryKey(Long primaryKey) {
         BizArticleTags articleTag = new BizArticleTags();
         articleTag.setTagId(primaryKey);
         List<BizArticleTags> articleTags = bizArticleTagsMapper.select(articleTag);
         if (!CollectionUtils.isEmpty(articleTags)) {
-            throw new ZhydException("当前标签下存在文章信息，禁止删除！");
+            throw new Exception("当前标签下存在文章信息，禁止删除！");
         }
         return bizTagsMapper.deleteByPrimaryKey(primaryKey) > 0;
     }
 
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = java.lang.Exception.class)
     @RedisCache(flush = true)
     public boolean updateSelective(Tags entity) {
         Assert.notNull(entity, "Tags不可为空！");
         Tags old = this.getByName(entity.getName());
         if (old != null && !old.getId().equals(entity.getId())) {
-            throw new ZhydException("标签修改失败，标签已存在！[" + entity.getName() + "]");
+            throw new Exception("标签修改失败，标签已存在！[" + entity.getName() + "]");
         }
         entity.setUpdateTime(new Date());
         return bizTagsMapper.updateByPrimaryKeySelective(entity.getBizTags()) > 0;
