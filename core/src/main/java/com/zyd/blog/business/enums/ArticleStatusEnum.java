@@ -1,7 +1,7 @@
 package com.zyd.blog.business.enums;
 
 public enum ArticleStatusEnum {
-    PUBULISHED (1, "已发布"),
+    PUBLISHED (1, "已发布"),
     UNPUBLISHED (0, "未发布");;
 
     private int code;
@@ -14,14 +14,14 @@ public enum ArticleStatusEnum {
 
     public static ArticleStatusEnum getByCode(Integer code) {
         if (code == null) {
-            return PUBULISHED;
+            return PUBLISHED;
         }
         for (ArticleStatusEnum value : ArticleStatusEnum.values()) {
             if (value.getcode() == code) {
                 return value;
             }
         }
-        return PUBULISHED;
+        return PUBLISHED;
     }
 
     public int getcode() {
