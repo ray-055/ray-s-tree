@@ -10,6 +10,7 @@
     <modules>
         <module>core</module>
         <module>blog-file</module>
+        <module>blog-web</module>
     </modules>
 
     <name>blog</name>
