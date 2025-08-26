@@ -3,7 +3,7 @@ package com.ray.blog.runner;
 import cn.hutool.core.thread.ThreadFactoryBuilder;
 import com.xkcoding.http.HttpUtil;
 import com.xkcoding.http.support.hutool.HutoolImpl;
-import com.zyd.blog.core.schedule.ArticleLookTask;
+import com.ray.blog.core.schedule.ArticleLookTask;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;

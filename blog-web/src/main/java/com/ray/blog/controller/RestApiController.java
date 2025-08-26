@@ -189,6 +189,8 @@ public class RestApiController {
         return ResultUtil.error("文章密码错误");
     }
 
+
+    /*
     @GetMapping("/ads")
     public ResponseVO ads() {
         List<BizAdBo> list = adService.listAll();
@@ -198,6 +200,7 @@ public class RestApiController {
         }
         return ResultUtil.success(res);
     }
+    */
 
     @PostMapping("/jssdkGetSignature")
     @BusinessLog(value = "获取jssdk签名", platform = PlatformEnum.WEB, save = false)

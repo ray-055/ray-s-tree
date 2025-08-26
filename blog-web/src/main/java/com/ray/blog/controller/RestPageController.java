@@ -1,7 +1,7 @@
 package com.ray.blog.controller;
 
-import com.zyd.blog.business.entity.Page;
-import com.zyd.blog.business.service.BizPageService;
+import com.ray.blog.business.entity.Page;
+import com.ray.blog.business.service.BizPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

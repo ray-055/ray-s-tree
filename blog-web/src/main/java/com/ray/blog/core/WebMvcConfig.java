@@ -1,6 +1,6 @@
 package com.ray.blog.core;
 
-import com.zyd.blog.core.intercepter.BraumIntercepter;
+import com.ray.blog.core.intercepter.BraumIntercepter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

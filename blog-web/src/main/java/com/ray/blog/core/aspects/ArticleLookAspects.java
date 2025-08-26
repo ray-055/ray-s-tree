@@ -1,6 +1,6 @@
 package com.ray.blog.core.aspects;
 
-import com.zyd.blog.core.schedule.ArticleLookTask;
+import com.ray.blog.core.schedule.ArticleLookTask;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -28,7 +28,7 @@ public class ArticleLookAspects {
     @Autowired
     private ArticleLookTask task;
 
-    @Pointcut("execution(* com.zyd.blog.controller.RenderController.article(..))")
+    @Pointcut("execution(* com.ray.blog.controller.RenderController.article(..))")
     public void pointcut() {
         // 切面切入点
     }

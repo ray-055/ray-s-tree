@@ -42,7 +42,7 @@
                                 <a href="${config.siteUrl}/article/${item.id?c}">
                                     <img src="${item.coverImage}" onerror="this.src='${config.staticWebSite}/img/defaultbanner.png'" alt="${item.title}" title="${item.title}">
                                 </a>
-                                <div class="zyd-carousel-caption">${item.title}</div>
+                                <div class="ray-carousel-caption">${item.title}</div>
                             </div>
                             </#list>
                         </div>

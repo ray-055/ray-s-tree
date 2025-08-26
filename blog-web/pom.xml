@@ -10,7 +10,7 @@
     <description>OneBlog 前台程序</description>
 
     <parent>
-        <groupId>com.zyd</groupId>
+        <groupId>com.ray</groupId>
         <artifactId>blog</artifactId>
         <version>2.3.9</version>
     </parent>
@@ -21,7 +21,7 @@
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zyd</groupId>
+            <groupId>com.ray</groupId>
             <artifactId>blog-core</artifactId>
             <exclusions>
                 <exclusion>
@@ -57,7 +57,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.zyd.blog.BlogWebApplication</mainClass>
+                    <mainClass>com.ray.blog.BlogWebApplication</mainClass>
                     <layout>JAR</layout>
                     <!--构建完整可执行程序，可以直接运行-->
                     <executable>true</executable>
